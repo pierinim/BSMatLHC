@@ -1,0 +1,22 @@
+# each line define a counting experiment, in the format
+# [output ROOT file] [analysis name] [observed yield n] [expected bkg yield b] [error on experted bkg db] [min signal] [max signal]
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET250 7584 7842 367 0 2000
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET300 2774 2757 167 0 1000
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET350 1142 1225 101 0 500
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET400  522  573  65 0 300
+#
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET250MU 205 205 10 0 500
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET300MU  64  64  4 0 100
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET350MU  24  24  2 0 100
+data/CMSmonojet_EXO_11_059.root CMSmonojet_EXO_11_059_MET400MU  11  11  1 0 100
+#
+data/CMSSSDilepBTag_SUS_11_020.root SR0 10 10.2 3.3 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR1 7 7.9 2.6 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR2 5 4.5 1.7 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR3 2 1.0 0.6 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR4 5 3.9 1.5 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR5 2 2.0 1.0 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR6 0 0.6 0.5 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR7 0 0.3 0.5 0. 20.
+data/CMSSSDilepBTag_SUS_11_020.root SR8 3 3.3 1.4 0. 20.
+

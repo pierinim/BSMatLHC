@@ -1,0 +1,48 @@
+# TODO
+# NO DETECTOR EFFECT -> RESOLUTION = 0.
+#######################################
+# CaloJets
+CALOJET PT sqrt(pow(8.32/x,2.)+pow(0.790 /sqrt(x),2.)+pow(0.071,2.))  
+CALOJET ETA 0.
+CALOJET PHI 0.
+# CaloMET
+CALOMET PT 0.
+CALOMET PHI 0.
+#######################################
+# PF Jets
+PFJET PT 0.
+PFJET ETA 0.
+PFJET PHI 0.
+# PF MET
+PFMET PT 0.
+PFMET PHI 0.
+#######################################
+# 
+ELECTRON PT 0.
+ELECTRON ETA 0.
+ELECTRON PHI 0.
+# 
+MUON PT 0.
+MUON ETA 0.
+MUON PHI 0.
+# 
+PHOTON PT 0.
+PHOTON ETA 0.
+PHOTON PHI 0.
+#
+ChHADRON PT 0.
+ChHADRON ETA 0.
+ChHADRON PHI 0.
+#
+NeuHADRON PT 0.
+NeuHADRON ETA 0.
+NeuHADRON PHI 0.
+#######################################
+#
+TRACK PT 0.
+TRACK ETA 0.
+TRACK PHI 0.
+# 
+TAU PT 0.
+TAU ETA 0.
+TAU PHI 0.

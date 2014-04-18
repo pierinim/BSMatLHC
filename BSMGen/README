@@ -1,0 +1,29 @@
+The BSMGen package implements a set of workflows to run study hep processes in PYTHIA8.
+Currently, the following workflows are implemented:
+
+- SUSYDecay: takes as input the mass spectrum of a SUSY model, written in SLHA format, 
+             and computes the inclusive cross section, as well as the crooss section of 
+             individual processes
+
+- GenPythia: takes as input a pythia card and generates a sample of events that are then 
+             processes through Delphes to apply ATLAS and CMS detector effects
+
+- LHEGen: takes as input a sample of generated events (in LHE format), apply parton
+          shower/hadronization through Pythia and process the events through Delphes
+      	  to apply ATLAS and CMS detector effects
+
+- STDHEPConverter: convert an STDHEP file in the .root format produced
+                   normally by BSMGen
+
+IMPORTANT:
+-----------
+
+To run BSMGen you need to correctly set the environment for pythia to sun, 
+sourcing the configuration script 
+
+source setup.(c)sh
+
+use the one corresponding to the shell you are using.
+
+
+

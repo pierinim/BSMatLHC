@@ -1,0 +1,75 @@
+#include "CommonTools/DetectorResponse.hh"
+
+#include <stdio.h>
+
+using namespace std;
+using namespace stdcomb;
+
+DetectorResponse::DetectorResponse(int seed) {
+  
+  // intialize the seed
+  if(seed < 0){
+    int jobpid = getpid();
+    TDatime *now = new TDatime();
+    int today = now->GetDate();
+    int clock = now->GetTime();
+    int myseed = today+clock+jobpid;
+    gRandom = new TRandom3(myseed);
+  } else {
+    gRandom = new TRandom3(seed);
+  }
+
+  // set the resolution functions to f(x) = 0 [no detector smearing]
+  _resFunPt  = new TF1("resFunPt",  "0.", 0., 100000.);
+  _resFunEta = new TF1("resFunEta", "0.", -10., 10.);
+  _resFunPhi = new TF1("resFunPhi", "0.", 0., 4.*asin(1.));
+
+}
+
+DetectorResponse::~DetectorResponse() {
+  delete _resFunPt;
+  delete _resFunEta;
+  delete _resFunPhi;
+}
+
+TF1* DetectorResponse::SetResolutionFunction(string name, vector<double> pars, double xmin, double xmax) {
+  int nPars = int(pars.size());
+  string function = "[0]+";
+  for(int i=1; i<nPars; i++) {
+    char* thisPar;
+    sprintf(thisPar, "+[%i]",i);
+    function = function + string(thisPar);
+    for(int j=0; j<i; j++) function = function+"*x";
+  }
+  TF1* f1 = new TF1(name.c_str(), function.c_str(), xmin, xmax);
+  for(int i=0; i<nPars; i++) f1->SetParameter(i, pars[i]);
+  return f1;
+}
+
+void DetectorResponse::SetTrackSmearPt(vector<double> pars){
+  _resFunPt = SetResolutionFunction(string(_resFunPt->GetName()), pars, _resFunPt->GetXmin(),  _resFunPt->GetXmax());
+}
+
+void DetectorResponse::SetTrackSmearEta(vector<double> pars){
+  _resFunEta = SetResolutionFunction(string(_resFunEta->GetName()), pars, _resFunEta->GetXmin(),  _resFunEta->GetXmax());
+}
+
+void DetectorResponse::SetTrackSmearPhi(vector<double> pars){
+  _resFunPhi = SetResolutionFunction(string(_resFunPhi->GetName()), pars, _resFunPhi->GetXmin(),  _resFunPhi->GetXmax());
+}
+
+TLorentzVector DetectorResponse::SmearNoBias(TLorentzVector pIN, TH1D* response) {
+  TLorentzVector pOUT = pIN;
+  double smear = SmearNoBias(pIN.Pt(), response);
+  pOUT.SetPtEtaPhiE(smear, pIN.Eta(), pIN.Phi(), smear/pIN.Pt()*pIN.E());
+  return pOUT;
+}
+
+double DetectorResponse::SmearNoBias(double pIN, TH1D* response) {
+  int ibin = response->FindBin(pIN);
+  double mean = pIN;
+  double sigma = response->GetBinContent(ibin);
+  double smear = gRandom->Gaus(mean,sigma);
+  return smear;
+}
+

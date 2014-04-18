@@ -1,0 +1,20 @@
+# Example input in Les Houches format, and suitable for input to
+# SOFTSUSY (v1.8 or higher): SPS1a input
+Block MODSEL		     # Select model
+    1    1		     # sugra
+Block SMINPUTS		     # Standard Model inputs
+    1	1.279340000e+02	     # alpha^(-1) SM MSbar(MZ)
+    2   1.166370000e-05	     # G_Fermi
+    3   1.172000000e-01	     # alpha_s(MZ) SM MSbar
+    4   9.118760000e+01	     # MZ(pole)
+    5	4.250000000e+00	     # mb(mb) SM MSbar
+    6   1.743000000e+02	     # mtop(pole)
+    7	1.777000000e+00	     # mtau(pole)
+Block MINPAR		     # Input parameters
+    1   M0VALUE	     # m0
+    2   M12VALUE	     # m12
+    3   TANBETAVALUE	     # tanb
+    4   SIGNMUVALUE     # sign(mu)
+    5   A0VALUE	     # A0
+
+

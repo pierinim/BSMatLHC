@@ -1,0 +1,65 @@
+//--------------------------------------------------------------
+// DeScription:  Generic detector response
+// Authors:      Maurizio Pierini, CERN
+//--------------------------------------------------------------
+
+#ifndef DetectorResponse_h
+#define DetectorResponse_h
+
+// std includes
+
+// ROOT includes
+#include <TRandom3.h>
+#include <TF1.h>
+
+// BSMatLHC includes
+#include "CommonTools/DetectorReco.hh"
+#include <CommonTools/StatTools.hh>
+
+using namespace std;
+
+class DetectorResponse {
+
+public:
+
+  /// Class Constructor
+  DetectorResponse(int seed);
+  /// Class Destructor
+  virtual ~DetectorResponse();
+  
+  /// Set the track pT resolution vs track pT
+  void SetTrackSmearPt(vector<double> pars);
+
+  /// Set the track eta resolution vs eta pT
+  void SetTrackSmearEta(vector<double> pars);
+  
+  /// Set the track phi resolution vs eta pT
+  void SetTrackSmearPhi(vector<double> pars);
+
+  /// Smear a collection of tracks according to the resolution
+  
+
+private:
+  /// Build a Detector response function as a polynomial
+  TF1* SetResolutionFunction(string name, vector<double> pars, double xmin, double xmax);
+
+  /// Random number generator
+  TRandom3* gRandom;
+
+  /// smear a four-vector (energy and Pt) using a Gaussian response function
+  // ??????  
+  TLorentzVector SmearNoBias(TLorentzVector pIN, TH1D* response);
+  /// smear a scalar using a Gaussian response function
+  // ??????  
+  double SmearNoBias(double pIN, TH1D* response);
+
+  /// Track Momentum Resolution function
+  TF1* _resFunPt;
+  /// Track Eta Resolution function
+  TF1* _resFunEta;
+  /// Track Phi Resolution function
+  TF1* _resFunPhi;
+
+};
+
+#endif

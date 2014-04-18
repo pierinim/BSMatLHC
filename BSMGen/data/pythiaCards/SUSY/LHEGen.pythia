@@ -1,0 +1,11 @@
+! This file contains commands to be read in for a Pythia8 run. 
+! Lines not beginning with a letter or digit are comments.
+
+! 1) Settings that could be used in a main program, if desired.
+Main:numberToList = 0              ! number of events to print
+Main:timesToShow = 20              ! show how far along run is
+Main:timesAllowErrors = 30         !
+Main:showChangedSettings = on      ! print changed flags/modes/parameters
+Main:showAllSettings = off         ! print all flags/modes/parameters
+Main:showChangedParticleData = on  ! print changed particle and decay data
+Main:showAllParticleData = on      ! print all particle and decay data

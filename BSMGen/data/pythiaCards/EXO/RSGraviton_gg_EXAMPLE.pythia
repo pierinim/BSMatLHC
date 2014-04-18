@@ -1,0 +1,29 @@
+! This file contains commands to be read in for a Pythia8 run. 
+! Lines not beginning with a letter or digit are comments.
+
+! 1) Settings that could be used in a main program, if desired.
+Main:numberOfEvents = 100       ! number of events to generate
+Main:numberToList = 0              ! number of events to print
+Main:timesToShow = 20              ! show how far along run is
+Main:timesAllowErrors = 30         ! max number of allowed errors
+Main:showChangedSettings = on      ! print changed flags/modes/parameters
+Main:showChangedParticleData = on  ! print changed particle and decay data
+
+! 2) LHC beams parameter settings. 
+Beams:idA = 2212                   ! first beam, p = 2212, pbar = -2212
+Beams:idB = 2212                   ! second beam, p = 2212, pbar = -2212
+Beams:eCM = 8000.                  ! CM energy of collision
+
+! 3) Resonance setup. See http://home.thep.lu.se/~torbjorn/pythia81html/ExtraDimensionalProcesses.html
+ExtraDimensionsG*:all  = on 
+5100039:m0 = 2000.  ! Mass (in GeV)
+ExtraDimensionsG*:kappaMG = 1.0 !TO SET WIDTH:  kappa m_G* = sqrt(2) x_1 k / Mbar_Pl, where x_1 = 3.83 
+5100039:onMode = off  ! switch off all decays
+5100039:onIfAny = 21  ! switch on the decays to gluons
+
+! 4) Settings for the event generation process in the Pythia8 library.
+PartonLevel:MI = on                ! multiple interactions
+PartonLevel:ISR = on               ! initial-state radiation 
+PartonLevel:FSR = on               ! final-state radiation
+HadronLevel:Hadronize = on         ! hadronization
+
