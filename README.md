@@ -40,6 +40,7 @@ TO RUN THE FULL CHAIN FROM A SLHA FILE
 
 > python python/runSLHA.py <SLHA name> <number of events> <CM Energy> <output file dir>
 
+**You will need to create a directory named <output file dir>
 
 TO RUN THE FULL CHAIN FROM A LHE FILE
 ---------------------------------------
