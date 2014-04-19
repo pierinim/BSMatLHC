@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
       writeOut = true;
     }
     if (strncmp(argv[i],"-sqrts=",7)==0)  {
-      sscanf(argv[i],"-sqrts=%d",&sqrts);
+      sscanf(argv[i],"-sqrts=%lf",&sqrts);
     }
     if (strncmp(argv[i],"--verbose",9)==0)      verbose = true;
     if (strncmp(argv[i],"--monojet",9)==0)      monojet = true;
