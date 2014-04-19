@@ -31,6 +31,7 @@ public:
   virtual ~CMSRazor();
   //! loop over events
   void Loop(string outFileName);
+  void SetSqrts(double sqrts);
 
 private:
   /// Box definition
