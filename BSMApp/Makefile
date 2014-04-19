@@ -31,7 +31,7 @@ OUTLIB	         = ./lib/
 .PREFIXES: ./lib/
 
 #lib CMSApp
-all: CMSLikMaker lib CMSApp FCCApp
+all: CMSLikMaker lib CMSApp FCCApp FCCeeApp
 
 fcc: fcclib FCCApp
 
@@ -198,4 +198,4 @@ CMSApp.clean:
 
 clean:
 	rm -f $(OUTLIB)*.o 
-	rm -f CMSApp CMSLikMaker FCCApp
+	rm -f CMSApp CMSLikMaker FCCApp FCCeeApp
