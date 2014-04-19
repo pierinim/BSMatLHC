@@ -64,7 +64,7 @@ private:
   double _Lumi;
 
   // collision energy
-  souble _sqrts;
+  double _sqrts;
 
 };
 #endif
