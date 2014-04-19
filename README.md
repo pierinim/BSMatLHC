@@ -7,11 +7,15 @@ Tools for Beyond Standard Model event generation and analysis at LHC and other c
 TO COMPILE THE CODE
 ---------------------
 
+0) you need cmake and ROOT   
+   http://www.cmake.org/cmake/resources/software.html
+   http://root.cern.ch/drupal/content/downloading-root
+   
 1) set the ROOTSYS environment variable in your shell 
 
 2) from the BSMatLHC directory run the script
 
-   > python /script/ToBuild/compile.py
+   > python script/ToBuild/compile.py
 
    This is a python script, so you need python.
    Moreover, the script will try to download
