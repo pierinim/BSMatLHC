@@ -66,7 +66,7 @@ def runSM(argv, ParticleName,useDecaySLHA, extraLines = []):
         print "Exiting"
         sys.exit(0)
     # create the SLHA from template
-    template = open("BSMGen/data/pythiacards/SUSY/SimplifiedModels/simplifiedModel.%s.slha" %SMname)
+    template = open("BSMGen/data/pythiaCards/SUSY/SimplifiedModels/simplifiedModel.%s.slha" %SMname)
     # open the SLHA file
     slhaname = "%s/sm%s_%s_%s_%s.slha" %(outdir,SMname,mP,mlsp,energy)
     myfile = open(slhaname,"w")

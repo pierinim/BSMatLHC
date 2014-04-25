@@ -1,28 +1,29 @@
 #include <string>
 #include <iostream>
 #include <TTree.h>
-#include "CMS/CMSRazor.hh"
+#include "CMS/CMSSUSYVars.hh"
 #include <fastjet/tools/Pruner.hh>
 
-CMSRazor::CMSRazor(TTree *tree, double Lumi, string analysis) : CMSReco(tree) {
+CMSSUSYVars::CMSSUSYVars(TTree *tree, double Lumi, string analysis) : CMSReco(tree) {
   _Lumi = Lumi;
   _statTools = new StatTools(-99);
   _analysis = analysis;
 }
 
-CMSRazor::~CMSRazor(){
+CMSSUSYVars::~CMSSUSYVars(){
 }
 
-void CMSRazor::SetSqrts(double sqrts) {
+void CMSSUSYVars::SetSqrts(double sqrts) {
   _sqrts = sqrts;
 }
 
 // loop over events - real analysis
-void CMSRazor::Loop(string outFileName) {
+void CMSSUSYVars::Loop(string outFileName) {
 
   if(fChain == 0) return;
 
   double MR, RSQ, MRNEW, RSQNEW;
+  double alphaT, MT2, xE, ptOut;
   int BOX_NUM;
   double W_EFF;
 
@@ -36,6 +37,10 @@ void CMSRazor::Loop(string outFileName) {
   outTree->Branch("RSQNEW", &RSQNEW, "RSQNEW/D");
   outTree->Branch("BOX_NUM", &BOX_NUM, "BOX_NUM/I");
   outTree->Branch("W_EFF", &W_EFF, "W_EFF/D");
+  outTree->Branch("alphaT", &alphaT, "alphaT/D");
+  outTree->Branch("MT2", &MT2, "MT2/D");
+  outTree->Branch("xE", &xE, "xE/D");
+  outTree->Branch("ptOut", &ptOut, "ptOut/D");
 
   double xedge[17] = {300, 350, 400.,450.,500.,550.,600.,650.,700.,800.,900.,1000.,1200.,1600.,2000.,2800.,3500.};
   double yedge[6] = {0.11,0.18,0.20,0.30,0.40,0.50};
@@ -114,6 +119,19 @@ void CMSRazor::Loop(string outFileName) {
     j2 = hem[1];  
     MR = CalcMR(j1, j2);
     RSQ = pow(CalcMRT(j1, j2, PFMET),2.)/MR/MR;
+
+    //the variable zoo
+    double jpt1 = max(j1.Pt(), j2.Pt());
+    double jpt2 = min(j1.Pt(), j2.Pt());
+    double jphi = fabs(j1.DeltaPhi(j2));
+    //compute alphaT
+    alphaT = sqrt(jpt2/(2*jpt1*(1-cos(jphi))));
+    //compute MT2
+    MT2 = sqrt(2*jpt1*jpt2*(1+cos(jphi)));
+    //compute xE
+    xE = -jpt2/jpt1*cos(jphi);
+    //compute ptOut
+    ptOut = jpt2*sin(jphi);
     
     // Boxes
     BOX_NUM = 5; // Had by default
@@ -187,7 +205,7 @@ void CMSRazor::Loop(string outFileName) {
 
 }
 
-bool CMSRazor::ELEELEBox() {
+bool CMSSUSYVars::ELEELEBox() {
   int iEle = 0;
   for(int j=0; j< EleWP95.size(); j++) {
     if(EleWP95[j].Pt()>10.) iEle++;
@@ -195,7 +213,7 @@ bool CMSRazor::ELEELEBox() {
   return ELEBox()*(iEle>1? true : false);
 }
 
-bool CMSRazor::MUBox() {
+bool CMSSUSYVars::MUBox() {
   int iMu = 0;
   for(int i=0; i< TightMu.size(); i++) {
     if(TightMu[i].Pt()>12.) iMu++;
@@ -203,7 +221,7 @@ bool CMSRazor::MUBox() {
   return (iMu>0 ? true : false);
 }
 
-bool CMSRazor::ELEBox() {
+bool CMSSUSYVars::ELEBox() {
   int iEle = 0;
   for(int i=0; i< EleWP80.size(); i++) {
     if(EleWP80[i].Pt()>20.) iEle++;
@@ -211,11 +229,11 @@ bool CMSRazor::ELEBox() {
   return (iEle>0 ? true : false);
 }
 
-bool CMSRazor::MUELEBox() {
+bool CMSSUSYVars::MUELEBox() {
   return MUBox()*ELEBox();
 }
 
-bool CMSRazor::MUMUBox() {
+bool CMSSUSYVars::MUMUBox() {
   int iMu = 0;
   for(int i=0; i< LooseMu.size(); i++) {
     if(LooseMu[i].Pt()>10.) iMu++;
@@ -229,22 +247,22 @@ bool CMSRazor::MUMUBox() {
   return true;
 }
 
-bool CMSRazor::SignalRegion(double mr, double rsq, double ibox){
+bool CMSSUSYVars::SignalRegion(double mr, double rsq, double ibox){
   if(ibox == 4 || ibox == 3) return SignalRegionLep(mr, rsq);
   else if(ibox == 5) return SignalRegionHad(mr, rsq);
   else if(ibox >=0 && ibox <=2) return SignalRegionDiLep(mr, rsq);
-  cout <<"Error on CMSRazor::SignalRegion : invalid box number " << ibox << endl;
+  cout <<"Error on CMSSUSYVars::SignalRegion : invalid box number " << ibox << endl;
   return false;
 }
 
-bool CMSRazor::SignalRegionHad(double mr, double rsq){
+bool CMSSUSYVars::SignalRegionHad(double mr, double rsq){
   // tighter baseline cuts
   if(rsq<0.18) return false;
   if(mr<500.) return false;
   return SignalRegionLep(mr, rsq);
 }
 
-bool CMSRazor::SignalRegionLep(double mr, double rsq){
+bool CMSSUSYVars::SignalRegionLep(double mr, double rsq){
   if(rsq>0.5) return false;
   if(rsq<0.11) return false;
   if(mr>1000.) return true;
@@ -253,7 +271,7 @@ bool CMSRazor::SignalRegionLep(double mr, double rsq){
   return false;
 }
 
-bool CMSRazor::SignalRegionDiLep(double mr, double rsq){
+bool CMSSUSYVars::SignalRegionDiLep(double mr, double rsq){
   if(rsq>0.5) return false;
   if(rsq<0.11) return false;
   if(mr>650.) return true;
@@ -262,7 +280,7 @@ bool CMSRazor::SignalRegionDiLep(double mr, double rsq){
   return false;
 }
 
-TH1D* CMSRazor::XsecProb(TH2D* sigPdf, double eff, TString Filename, int ibin, double xmin, double xmax) {
+TH1D* CMSSUSYVars::XsecProb(TH2D* sigPdf, double eff, TString Filename, int ibin, double xmin, double xmax) {
 
   int ibinX = sigPdf->GetXaxis()->GetNbins();
   int ibinY = sigPdf->GetYaxis()->GetNbins();
