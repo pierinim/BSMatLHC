@@ -24,8 +24,10 @@ void CMSSUSYVars::Loop(string outFileName) {
 
   double MR, RSQ, MRNEW, RSQNEW;
   double alphaT, MT2, xE, ptOut;
+  double alphaTNew, MT2New, xENew, ptOutNew;
   int BOX_NUM;
   double W_EFF;
+  double MET;
 
   // Open Output file
   TFile *file = new TFile(outFileName.c_str(),"UPDATE");
@@ -41,6 +43,11 @@ void CMSSUSYVars::Loop(string outFileName) {
   outTree->Branch("MT2", &MT2, "MT2/D");
   outTree->Branch("xE", &xE, "xE/D");
   outTree->Branch("ptOut", &ptOut, "ptOut/D");
+  outTree->Branch("alphaTNew", &alphaTNew, "alphaTNew/D");
+  outTree->Branch("MT2New", &MT2New, "MT2New/D");
+  outTree->Branch("xENew", &xENew, "xENew/D");
+  outTree->Branch("ptOutNew", &ptOutNew, "ptOutNew/D");
+  outTree->Branch("MET", &MET, "MET/D");
 
   double xedge[17] = {300, 350, 400.,450.,500.,550.,600.,650.,700.,800.,900.,1000.,1200.,1600.,2000.,2800.,3500.};
   double yedge[6] = {0.11,0.18,0.20,0.30,0.40,0.50};
@@ -91,6 +98,7 @@ void CMSSUSYVars::Loop(string outFileName) {
 
     GenMET();
     PFMET = genMET;
+    MET = sqrt(PFMET.px()*PFMET.px() + PFMET.py()*PFMET.py());
 
     // Ele reco: WP80 and WP95
     EleReco();
@@ -114,6 +122,20 @@ void CMSSUSYVars::Loop(string outFileName) {
     TLorentzVector j2 = hemNEW[1];  
     MRNEW = CalcMR(j1, j2);
     RSQNEW = pow(CalcMRT(j1, j2, PFMET),2.)/MRNEW/MRNEW;
+
+    //compute the other variables with the new hemispheres
+    double jpt1 = max(j1.Pt(), j2.Pt());
+    double jpt2 = min(j1.Pt(), j2.Pt());
+    double jphi = fabs(j1.DeltaPhi(j2));
+    //compute alphaT
+    alphaTNew = sqrt(jpt2/(2*jpt1*(1-cos(jphi))));
+    //compute MT2
+    MT2New = sqrt(2*jpt1*jpt2*(1+cos(jphi)));
+    //compute xE
+    xENew = -jpt2/jpt1*cos(jphi);
+    //compute ptOut
+    ptOutNew = jpt2*sin(jphi);
+    
     // 2b) compute traditional RSQ and MR
     j1 = hem[0];
     j2 = hem[1];  
@@ -121,9 +143,9 @@ void CMSSUSYVars::Loop(string outFileName) {
     RSQ = pow(CalcMRT(j1, j2, PFMET),2.)/MR/MR;
 
     //the variable zoo
-    double jpt1 = max(j1.Pt(), j2.Pt());
-    double jpt2 = min(j1.Pt(), j2.Pt());
-    double jphi = fabs(j1.DeltaPhi(j2));
+    jpt1 = max(j1.Pt(), j2.Pt());
+    jpt2 = min(j1.Pt(), j2.Pt());
+    jphi = fabs(j1.DeltaPhi(j2));
     //compute alphaT
     alphaT = sqrt(jpt2/(2*jpt1*(1-cos(jphi))));
     //compute MT2
@@ -132,7 +154,7 @@ void CMSSUSYVars::Loop(string outFileName) {
     xE = -jpt2/jpt1*cos(jphi);
     //compute ptOut
     ptOut = jpt2*sin(jphi);
-    
+
     // Boxes
     BOX_NUM = 5; // Had by default
     if(MUELEBox()) BOX_NUM = 0;

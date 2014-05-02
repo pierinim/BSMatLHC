@@ -86,6 +86,11 @@ def runSM(argv, ParticleName,useDecaySLHA, extraLines = []):
         elif line.find("SLHA:useDecayTable =") != -1: 
             if useDecaySLHA: pythiaCard.write("SLHA:useDecayTable = on\n")
             else: pythiaCard.write("SLHA:useDecayTable = off\n")
+        elif line.find("SUSY:all") != -1: 
+            if SMname.find("T1") != -1: pythiaCard.write("SUSY:gg2gluinogluino = on\n SUSY:qqbar2gluinogluino = on\n")
+            elif SMname.find("T2") != -1: 
+                pythiaCard.write("SUSY:gg2squarkantisquark = on\n")
+                pythiaCard.write("SUSY:qqbar2squarkantisquark = on\n")
         else: pythiaCard.write(line)
     # ADD EXTRA LINES: 
     for line in extraLines: pythiaCard.write(line)

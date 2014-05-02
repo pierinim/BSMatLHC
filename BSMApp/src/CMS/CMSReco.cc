@@ -78,25 +78,25 @@ void CMSReco::PFReco() {
   // list of gen muons
   for(int i=0; i<Muon; i++) {
     fastjet::PseudoJet p(MuonPx[i], MuonPy[i], MuonPz[i], MuonE[i]);
-    if(p.pt()>0.5) _PFMuons.push_back(p);
+    if(p.pt()>0.5 && fabs(p.eta()) < 2.4) _PFMuons.push_back(p);
   }
   
   // list of gen electrons
   for(int i=0; i<Electron; i++) {
     fastjet::PseudoJet p(ElectronPx[i], ElectronPy[i], ElectronPz[i], ElectronE[i]);
-    if(p.pt()>0.5) _PFElectrons.push_back(p);
+    if(p.pt()>0.5 && fabs(p.eta()) < 2.5) _PFElectrons.push_back(p);
   }
 
   // list of gen photons
   for(int i=0; i<Photon; i++) {
     fastjet::PseudoJet p(PhotonPx[i], PhotonPy[i], PhotonPz[i], PhotonE[i]);
-    if(p.pt()>0.5) _PFPhotons.push_back(p);
+    if(p.pt()>0.5 && fabs(p.eta()) < 2.4) _PFPhotons.push_back(p);
   }
 
   // list of gen charged/neutral hadrons
   for(int i=0; i<Particle; i++) {
     fastjet::PseudoJet p(ParticlePx[i], ParticlePy[i], ParticlePz[i], ParticleE[i]);
-    if(p.pt()<0.5) continue;
+    if(p.pt()<0.5 || fabs(p.eta()) > 3.0) continue;
     if(abs(ParticlePdgId[i]) == 11) continue; // already included as electron
     if(abs(ParticlePdgId[i]) == 13) continue; // already included as muon
     if(abs(ParticlePdgId[i]) == 22) continue; // already included as photon
