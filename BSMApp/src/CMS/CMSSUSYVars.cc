@@ -28,6 +28,10 @@ void CMSSUSYVars::Loop(string outFileName) {
   int BOX_NUM;
   double W_EFF;
   double MET;
+  double HT;
+  int numJets;
+  double hem1Pt, hem2Pt, hem1Eta, hem2Eta, hem1Phi, hem2Phi;
+  double hemNew1Pt, hemNew2Pt, hemNew1Eta, hemNew2Eta, hemNew1Phi, hemNew2Phi;
 
   // Open Output file
   TFile *file = new TFile(outFileName.c_str(),"UPDATE");
@@ -48,6 +52,20 @@ void CMSSUSYVars::Loop(string outFileName) {
   outTree->Branch("xENew", &xENew, "xENew/D");
   outTree->Branch("ptOutNew", &ptOutNew, "ptOutNew/D");
   outTree->Branch("MET", &MET, "MET/D");
+  outTree->Branch("HT", &HT, "HT/D");
+  outTree->Branch("numJets", &numJets, "numJets/I");
+  outTree->Branch("hem1Pt", &hem1Pt, "hem1Pt/D");
+  outTree->Branch("hem2Pt", &hem2Pt, "hem2Pt/D");
+  outTree->Branch("hem1Eta", &hem1Eta, "hem1Eta/D");
+  outTree->Branch("hem2Eta", &hem2Eta, "hem2Eta/D");
+  outTree->Branch("hem1Phi", &hem1Phi, "hem1Phi/D");
+  outTree->Branch("hem2Phi", &hem2Phi, "hem2Phi/D");
+  outTree->Branch("hemNew1Pt", &hemNew1Pt, "hemNew1Pt/D");
+  outTree->Branch("hemNew2Pt", &hemNew2Pt, "hemNew2Pt/D");
+  outTree->Branch("hemNew1Eta", &hemNew1Eta, "hemNew1Eta/D");
+  outTree->Branch("hemNew2Eta", &hemNew2Eta, "hemNew2Eta/D");
+  outTree->Branch("hemNew1Phi", &hemNew1Phi, "hemNew1Phi/D");
+  outTree->Branch("hemNew2Phi", &hemNew2Phi, "hemNew2Phi/D");
 
   double xedge[17] = {300, 350, 400.,450.,500.,550.,600.,650.,700.,800.,900.,1000.,1200.,1600.,2000.,2800.,3500.};
   double yedge[6] = {0.11,0.18,0.20,0.30,0.40,0.50};
@@ -83,16 +101,22 @@ void CMSSUSYVars::Loop(string outFileName) {
     vector<fastjet::PseudoJet> empty;
     vector<fastjet::PseudoJet> JetsConst = PFJetConstituents(empty,empty,empty);
 
+    double jetPtCut = 65;
     // wide jets
     fastjet::JetDefinition CA08_def(fastjet::cambridge_algorithm, 0.8);
     fastjet::ClusterSequence pfCA08ClusterSequence = JetMaker(JetsConst, CA08_def);
-    vector<fastjet::PseudoJet> pfCA08 = SelectByAcceptance(fastjet::sorted_by_pt(pfCA08ClusterSequence.inclusive_jets()),40., 2.4);
+    vector<fastjet::PseudoJet> pfCA08 = SelectByAcceptance(fastjet::sorted_by_pt(pfCA08ClusterSequence.inclusive_jets()),jetPtCut, 2.4);
     fastjet::Pruner pruner(CA08_def, 0.1, 0.25);
 
     // narrow jets
     fastjet::JetDefinition AK04_def(fastjet::antikt_algorithm, 0.4);
     fastjet::ClusterSequence pfAK04ClusterSequence = JetMaker(JetsConst, AK04_def);
-    vector<fastjet::PseudoJet> pfAK04 = SelectByAcceptance(fastjet::sorted_by_pt(pfAK04ClusterSequence.inclusive_jets()),40., 2.4);
+    vector<fastjet::PseudoJet> pfAK04 = SelectByAcceptance(fastjet::sorted_by_pt(pfAK04ClusterSequence.inclusive_jets()),jetPtCut, 2.4);
+    numJets = pfAK04.size();
+    HT = 0;
+    for(int i = 0; i < numJets; i++){
+        HT+=pfAK04[i].pt();
+    }
 
     if(pfAK04.size()<2) continue;
 
@@ -120,6 +144,14 @@ void CMSSUSYVars::Loop(string outFileName) {
     // 2a) compute new RSQ and MR
     TLorentzVector j1 = hemNEW[0];
     TLorentzVector j2 = hemNEW[1];  
+
+    hemNew1Pt = j1.Pt();
+    hemNew2Pt = j2.Pt();
+    hemNew1Eta = j1.Eta();
+    hemNew2Eta = j2.Eta();
+    hemNew1Phi = j1.Phi();
+    hemNew2Phi = j2.Phi();
+
     MRNEW = CalcMR(j1, j2);
     RSQNEW = pow(CalcMRT(j1, j2, PFMET),2.)/MRNEW/MRNEW;
 
@@ -139,6 +171,14 @@ void CMSSUSYVars::Loop(string outFileName) {
     // 2b) compute traditional RSQ and MR
     j1 = hem[0];
     j2 = hem[1];  
+    
+    hem1Pt = j1.Pt();
+    hem2Pt = j2.Pt();
+    hem1Eta = j1.Eta();
+    hem2Eta = j2.Eta();
+    hem1Phi = j1.Phi();
+    hem2Phi = j2.Phi();
+
     MR = CalcMR(j1, j2);
     RSQ = pow(CalcMRT(j1, j2, PFMET),2.)/MR/MR;
 
