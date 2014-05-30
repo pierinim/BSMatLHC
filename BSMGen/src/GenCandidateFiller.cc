@@ -176,7 +176,7 @@ void GenCandidateFiller::FillTree() {
   _genTree->column((_name+"Pz").c_str(), *_privateData->pz, _name.c_str(), 0, "Reco");
   _genTree->column((_name+"X").c_str(), *_privateData->x, _name.c_str(), 0, "Reco");
   _genTree->column((_name+"Y").c_str(), *_privateData->y, _name.c_str(), 0, "Reco");
-  _genTree->column((_name+"X").c_str(), *_privateData->z, _name.c_str(), 0, "Reco");
+  _genTree->column((_name+"Z").c_str(), *_privateData->z, _name.c_str(), 0, "Reco");
   _genTree->column((_name+"Mass").c_str(), *_privateData->mass, _name.c_str(), 0, "Reco");
   _genTree->column((_name+"PdgId").c_str(), *_privateData->pdgId, _name.c_str(), 0, "Reco");
   _genTree->column((_name+"DecayLmm").c_str(), *_privateData->decayLenght, _name.c_str(), 0, "Reco"); 
