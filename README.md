@@ -1,7 +1,7 @@
 BSMatLHC
 ========
 
-Tools for Beyond Standard Model event generation and analysis at LHC and other colliders
+Tools for Beyond Standard Model event generation and analysis at LHC and other colliders!
 
 
 TO COMPILE THE CODE
