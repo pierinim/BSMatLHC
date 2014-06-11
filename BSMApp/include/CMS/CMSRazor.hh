@@ -22,6 +22,8 @@
 
 using namespace std;
 
+
+
 class CMSRazor : public CMSReco, public DataAnalysis {
 public:
   
@@ -30,6 +32,7 @@ public:
   //! destructor
   virtual ~CMSRazor();
   //! loop over events
+	
   void Loop(string outFileName);
   void SetSqrts(double sqrts);
 
@@ -63,9 +66,15 @@ private:
   TH1D* XsecProb(TH2D* sigPdf, double eff, TString Filename, int ibin, double xmin, double xmax);
   /// Luminosity
   double _Lumi;
-
-  // collision energy
+  ///collision energy
   double _sqrts;
+	
+  ///cambridge exclusive jets implementation
+  vector<fastjet::PseudoJet> improper_Exclusive_Jets(const fastjet::ClusterSequence cs_E);
+	
+	// theses are used in gen level analysis
+  //vector<int> find_all(const vector<double> objects, const item, const low_bound, const up_bound );
+  double D_between_vectors( const TLorentzVector V1, const TLorentzVector V2);
 
 };
 #endif

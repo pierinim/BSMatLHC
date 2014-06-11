@@ -84,7 +84,7 @@ void CMSReco::PFReco() {
   // list of gen electrons
   for(int i=0; i<Electron; i++) {
     fastjet::PseudoJet p(ElectronPx[i], ElectronPy[i], ElectronPz[i], ElectronE[i]);
-    if(p.pt()>0.5 && fabs(p.eta()) < 2.5) _PFElectrons.push_back(p);
+    if(p.pt()>0.5 && fabs(p.eta()) < 2.4) _PFElectrons.push_back(p);
   }
 
   // list of gen photons
@@ -128,6 +128,34 @@ vector<fastjet::PseudoJet> CMSReco::PFJetConstituents(vector<fastjet::PseudoJet>
   for(int i=0; i<_PFNeuHadrons.size(); i++) PFcands.push_back(_PFNeuHadrons[i]);
   return PFcands;
 }
+
+
+
+
+void CMSReco::GenReturn(int &gen1, vector<double> &gen2, vector<double> &gen3, vector<double> &gen4, vector<double> &gen5, vector<int> &gen6, vector<int> &gen7 ){
+	gen1 = GenTreeParticle; //this is fine
+	
+	gen2.reserve(GenTreeParticle);
+	gen3.reserve(GenTreeParticle);
+	gen4.reserve(GenTreeParticle);
+	gen5.reserve(GenTreeParticle);
+	gen6.reserve(GenTreeParticle);
+	gen7.reserve(GenTreeParticle);
+	
+	for (int ni = 0; ni < GenTreeParticle; ni++) {
+		gen2[ni] = GenTreeParticlePx[ni];
+		gen3[ni] = GenTreeParticlePy[ni];
+		gen4[ni] = GenTreeParticlePz[ni];
+		gen5[ni] = GenTreeParticleE[ni];
+		gen6[ni] = GenTreeParticlePdgId[ni];
+		gen7[ni] = GenTreeParticleM1PdgId[ni];
+	}
+}
+
+
+
+
+
 
 bool CMSReco::FoundParticle(fastjet::PseudoJet p, vector<fastjet::PseudoJet> q, double dR) {
   bool found = false;
@@ -203,6 +231,14 @@ double CMSReco::CalcMR(fastjet::PseudoJet j1, fastjet::PseudoJet j2){
   ja.SetPtEtaPhiE(j1.pt(), j1.eta(), j1.phi(), sqrt(j1.pz()*j1.pz()+j1.perp2()));
   jb.SetPtEtaPhiE(j2.pt(), j2.eta(), j2.phi(), sqrt(j2.pz()*j2.pz()+j2.perp2()));
   return sqrt((ja.P()+jb.P())*(ja.P()+jb.P())-(ja.Pz()+jb.Pz())*(ja.Pz()+jb.Pz()));
+}
+
+
+double CMSReco::CalcMR_zinvariant(fastjet::PseudoJet j1, fastjet::PseudoJet j2){
+	TLorentzVector ja,jb;
+	ja.SetPtEtaPhiE(j1.pt(), j1.eta(), j1.phi(), j1.E());//  E was originally set to sqrt(j1.pz()*j1.pz()+j1.perp2()));
+	jb.SetPtEtaPhiE(j2.pt(), j2.eta(), j2.phi(), j2.E());//  E was originally set to sqrt(j2.pz()*j2.pz()+j2.perp2()));
+	return sqrt((ja.E()+jb.E())*(ja.E()+jb.E())-(ja.Pz()+jb.Pz())*(ja.Pz()+jb.Pz()));
 }
 
 
