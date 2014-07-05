@@ -9,8 +9,8 @@
 ///  http://arxiv.org/abs/1006.2727
 ///  MISSING ANALYSIS REFERENCE HERE
 
-#ifndef CMSRazor_h
-#define CMSRazor_h
+#ifndef CMSSUSYVars_h
+#define CMSSUSYVars_h
 
 #include <vector>
 #include <TVector3.h>
@@ -22,17 +22,14 @@
 
 using namespace std;
 
-
-
-class CMSRazor : public CMSReco, public DataAnalysis {
+class CMSSUSYVars : public CMSReco, public DataAnalysis {
 public:
   
   //! constructor
-  CMSRazor(TTree *tree, double Lumi, string analysis);
+  CMSSUSYVars(TTree *tree, double Lumi, string analysis);
   //! destructor
-  virtual ~CMSRazor();
+  virtual ~CMSSUSYVars();
   //! loop over events
-	
   void Loop(string outFileName);
   void SetSqrts(double sqrts);
 
@@ -66,15 +63,9 @@ private:
   TH1D* XsecProb(TH2D* sigPdf, double eff, TString Filename, int ibin, double xmin, double xmax);
   /// Luminosity
   double _Lumi;
-  ///collision energy
+
+  // collision energy
   double _sqrts;
-	
-  ///cambridge exclusive jets implementation
-  vector<fastjet::PseudoJet> improper_Exclusive_Jets(const fastjet::ClusterSequence cs_E);
-	
-	// theses are used in gen level analysis
-  //vector<int> find_all(const vector<double> objects, const item, const low_bound, const up_bound );
-  double D_between_vectors( const TLorentzVector V1, const TLorentzVector V2);
 
 };
 #endif

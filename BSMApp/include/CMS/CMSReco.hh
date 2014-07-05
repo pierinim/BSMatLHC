@@ -61,6 +61,8 @@ protected:
 					     vector<fastjet::PseudoJet> eleToRemove,
 					       vector<fastjet::PseudoJet> photonToRemove);
 
+  void GenReturn(int &gen1, vector<double> &gen2, vector<double> &gen3, vector<double> &gen4, vector<double> &gen5, vector<int> &gen6, vector<int> &gen7);
+	
 
   /// Compute missing pixel hits for a give track
   /// due to detector inefficiency and/or track displacement
@@ -76,6 +78,8 @@ protected:
   double CalcAlphaT(fastjet::PseudoJet ja, fastjet::PseudoJet jb);
   /// Compute MR  [used in SUSY searches]
   double CalcMR(fastjet::PseudoJet ja, fastjet::PseudoJet jb);
+  /// Compute MR invariant (use energies in place of |p| for each hemisphere
+  double CalcMR_zinvariant(fastjet::PseudoJet ja, fastjet::PseudoJet jb);
   /// Compute MR' [used in SUSY searches]
   double CalcMRP(fastjet::PseudoJet ja, fastjet::PseudoJet jb, fastjet::PseudoJet met);
   /// Compute MR_T  [used in SUSY searches]

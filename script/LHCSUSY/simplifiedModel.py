@@ -66,7 +66,7 @@ def runSM(argv, ParticleName,useDecaySLHA, extraLines = []):
         print "Exiting"
         sys.exit(0)
     # create the SLHA from template
-    template = open("BSMGen/data/pythiacards/SUSY/SimplifiedModels/simplifiedModel.%s.slha" %SMname)
+    template = open("BSMGen/data/pythiaCards/SUSY/SimplifiedModels/simplifiedModel.%s.slha" %SMname)
     # open the SLHA file
     slhaname = "%s/sm%s_%s_%s_%s.slha" %(outdir,SMname,mP,mlsp,energy)
     myfile = open(slhaname,"w")
@@ -86,6 +86,11 @@ def runSM(argv, ParticleName,useDecaySLHA, extraLines = []):
         elif line.find("SLHA:useDecayTable =") != -1: 
             if useDecaySLHA: pythiaCard.write("SLHA:useDecayTable = on\n")
             else: pythiaCard.write("SLHA:useDecayTable = off\n")
+        elif line.find("SUSY:all") != -1: 
+            if SMname.find("T1") != -1: pythiaCard.write("SUSY:gg2gluinogluino = on\n SUSY:qqbar2gluinogluino = on\n")
+            elif SMname.find("T2") != -1: 
+                pythiaCard.write("SUSY:gg2squarkantisquark = on\n")
+                pythiaCard.write("SUSY:qqbar2squarkantisquark = on\n")
         else: pythiaCard.write(line)
     # ADD EXTRA LINES: 
     for line in extraLines: pythiaCard.write(line)

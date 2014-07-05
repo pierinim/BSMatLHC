@@ -48,13 +48,13 @@ void CMSHemisphere::Combine() {
 }
 
 void CMSHemisphere::CombineMinMass() {
-  double M_min = 1.E6;
+  double M_min = -1;
   // default value (in case none is found)
   TLorentzVector myJ1 = j1[0];
   TLorentzVector myJ2 = j2[0];
   for(int i=0; i< j1.size(); i++) {
     double M_temp = j1[i].M2()+j2[i].M2();
-    if(M_temp < M_min){
+    if(M_min < 0 || M_temp < M_min){
       M_min = M_temp;
       myJ1 = j1[i];
       myJ2 = j2[i];

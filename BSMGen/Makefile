@@ -64,7 +64,7 @@ GenPythia:$(SRCDIR)GenPythia.C
 	-I$(INCLUDEDIR) \
 	-I$(HEPMCDIR)include/ \
 	-I$(PYTHIADIR)include/ \
-	-L $(OUTLIB) -l GenTree.o -l GenTreeColumn.o -l GenCandidateFiller.o \
+	$(OUTLIB)/GenTree.o $(OUTLIB)/GenTreeColumn.o $(OUTLIB)/GenCandidateFiller.o \
 	$(LIBS) \
 	-L$(LIBDIRARCH) -lpythia8  -llhapdfdummy -l pythia8tohepmc  \
 	-L$(HEPMCLIB) -lHepMC \
@@ -75,7 +75,7 @@ SMGen:$(SRCDIR)SMGen.C
 	-I$(INCLUDEDIR) \
 	-I$(HEPMCDIR)include/ \
 	-I$(PYTHIADIR)include/ \
-	-L $(OUTLIB) -l GenTree.o -l GenTreeColumn.o -l GenCandidateFiller.o \
+	$(OUTLIB)/GenTree.o $(OUTLIB)/GenTreeColumn.o $(OUTLIB)/GenCandidateFiller.o \
 	$(LIBS) \
 	-L$(LIBDIRARCH) -lpythia8 -llhapdfdummy -lpythia8tohepmc \
 	-L$(HEPMCLIB) -lHepMC  \
@@ -86,7 +86,7 @@ STDHEPConverter:$(SRCDIR)STDHEPConverter.C
 	-I$(INCLUDEDIR) \
 	-I$(HEPMCDIR)include/ \
 	-I$(PYTHIADIR)include/ \
-	-L $(OUTLIB) -l GenTree.o -l GenTreeColumn.o -l	GenCandidateFiller.o -l STDHEP.o \
+	$(OUTLIB)/GenTree.o $(OUTLIB)/GenTreeColumn.o $(OUTLIB)/GenCandidateFiller.o $(OUTLIB)/STDHEP.o \
 	$(LIBS) \
 	-L$(LIBDIRARCH) -lpythia8 -llhapdfdummy -lpythia8tohepmc \
 	-L$(HEPMCLIB) -lHepMC \
@@ -97,8 +97,7 @@ LHEGen:$(SRCDIR)LHEGen.C
 	-I$(INCLUDEDIR) \
 	-I$(HEPMCDIR)include/ \
 	-I$(PYTHIADIR)include/ \
-	-L $(OUTLIB) -l GenTree.o -l GenTreeColumn.o -l	GenCandidateFiller.o -l STDHEP.o \
-	-L $(OUTLIB) -l GenTree.o -l GenTreeColumn.o -l	GenCandidateFiller.o -l STDHEP.o \
+	$(OUTLIB)/GenTree.o $(OUTLIB)/GenTreeColumn.o $(OUTLIB)/GenCandidateFiller.o $(OUTLIB)/STDHEP.o \
 	$(LIBS) \
 	-L$(LIBDIRARCH) -lpythia8 -llhapdfdummy -lpythia8tohepmc \
 	-L$(HEPMCLIB) -lHepMC  \

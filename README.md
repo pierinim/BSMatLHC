@@ -8,8 +8,8 @@ TO COMPILE THE CODE
 ---------------------
 
 0) you need cmake and ROOT   
-   http://www.cmake.org/cmake/resources/software.html
-   http://root.cern.ch/drupal/content/downloading-root
+   > http://www.cmake.org/cmake/resources/software.html
+   > http://root.cern.ch/drupal/content/downloading-root
    
 1) set the ROOTSYS environment variable in your shell 
 
@@ -40,6 +40,7 @@ TO RUN THE FULL CHAIN FROM A SLHA FILE
 
 > python python/runSLHA.py <SLHA name> <number of events> <CM Energy> <output file dir>
 
+**You will need to create a directory named <output file dir>
 
 TO RUN THE FULL CHAIN FROM A LHE FILE
 ---------------------------------------

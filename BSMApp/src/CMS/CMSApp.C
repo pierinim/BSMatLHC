@@ -17,6 +17,7 @@
 
 // Supported Analyses
 #include "CMS/CMSRazor.hh"
+#include "CMS/CMSSUSYVars.hh"
 //#include "CMS/CMSMonoJet.hh"
 //#include "CMS/CMSSSDilepBtag.hh"
 //#include "CMS/CMSDisplacedJet.hh"
@@ -36,6 +37,7 @@ int main(int argc, char* argv[]) {
     cout << "OPTIONS:        " << endl;
     cout << "--verbose       Increase verbosity level for debug" << endl;
     cout << "--razor         Run Razor Analysis" << endl;
+    cout << "--susyvars      Razor, alpha_T, MT2, etc" << endl;
     cout << "--monojet       Run MonoJet Analysis" << endl;
     cout << "--darkmatter    Run Dark Matter future study" << endl;
     cout << "--substructure  Run Substructure tagger analysis on jets" << endl;
@@ -54,6 +56,7 @@ int main(int argc, char* argv[]) {
   bool verbose  = false;
   bool writeOut = false;
   bool razor = false;
+  bool susyvars = false;
   bool monojet = false;
   bool darkmatter = false;
   bool substructure = false;
@@ -67,7 +70,7 @@ int main(int argc, char* argv[]) {
       writeOut = true;
     }
     if (strncmp(argv[i],"-sqrts=",7)==0)  {
-      sscanf(argv[i],"-sqrts=%d",&sqrts);
+      sscanf(argv[i],"-sqrts=%lf",&sqrts);
     }
     if (strncmp(argv[i],"--verbose",9)==0)      verbose = true;
     if (strncmp(argv[i],"--monojet",9)==0)      monojet = true;
@@ -76,6 +79,7 @@ int main(int argc, char* argv[]) {
     if (strncmp(argv[i],"--displaced",11)==0)   displaced = true;
     if (strncmp(argv[i],"--ssdilepbtag",13)==0) ssdilepbtag = true;
     if (strncmp(argv[i],"--razor",7)==0)        razor = true;
+    if (strncmp(argv[i],"--susyvars",10)==0)        susyvars = true;
   }
   
   if(strncmp(inputCMS,"none",4)!=0) {
@@ -102,6 +106,18 @@ int main(int argc, char* argv[]) {
       if(verbose) cmsRazor.SetVerbose(true);
       cmsRazor.SetSqrts(sqrts);
       cmsRazor.Loop(outFileName);
+    }
+
+    //Razor + alpha_T, MT2, xE, ptOut
+    if(susyvars){
+        CMSSUSYVars cmssusyvars(cmsChain, 0., "");
+        if(!writeOut){
+            cout << "please specify output file" << endl;
+            return 0;
+        }
+        if(verbose) cmssusyvars.SetVerbose(true);
+        cmssusyvars.SetSqrts(sqrts);
+        cmssusyvars.Loop(outFileName);
     }
 
     /*    
